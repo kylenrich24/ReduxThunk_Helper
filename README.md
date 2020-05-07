@@ -1,6 +1,4 @@
 # Redux-Thunk
-
-<br>
 <br>
 <em>npm install --save redux-thunk</em>
 <br>
@@ -16,7 +14,8 @@ Fetching data in a redux app:
 - action creator creates action that has data on the payload
 - reducers take action
 - new state, rerender
-
+<br>
+<br>
 # Async Action-Creators
 <br>
 <br>
@@ -37,14 +36,16 @@ export const fetchPosts = async () => {
 
 - because of async await, it returns a request instead of an action, reducers can't accept this
 - secondly, by the time our reducer get the action, payload: response isn't there yet
-
+<br>
+<br>
 # Middlewares
 <br>
 <br>
 - action -> dispatch -> middlewares -> reducers
 - functions that STOP, MODIFY actions
 - redux-thunk allows action-creators to return functions with (dispatch, getState) params
-
+<br>
+<br>
 # Config index.js to use middlewares
 <br>
 <br>
