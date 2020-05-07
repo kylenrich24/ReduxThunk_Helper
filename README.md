@@ -75,11 +75,13 @@ ReactDOM.render(
   document.querySelector("#root")
 );
 ```
+<br>
+<br>
 
 action-creator
 
 ```javascript
-export const fetchPosts = () => async (dispatch, getState) => {
+export const fetchPosts = () => async (dispatch, getState) => {  //action-creator can return a function with (dispatch, getState) params
   const response = await jsonPlaceholder.get("/posts");
 
   dispatch({ type: "FETCH_POSTS", payload: response });
