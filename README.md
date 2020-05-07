@@ -43,6 +43,7 @@ export const fetchPosts = async () => {
 # Middlewares
 <br>
 <br>
+
 - action -> dispatch -> middlewares -> reducers
 - functions that STOP, MODIFY actions
 - redux-thunk allows action-creators to return functions with (dispatch, getState) params
