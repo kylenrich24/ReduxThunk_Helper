@@ -20,7 +20,7 @@ Fetching data in a redux app:
 # Async Action-Creators
 <br>
 <br>
-- action creators must return plain JS objects
+- action creators must return plain JS objects<br><br>
 
 bad approach
 
