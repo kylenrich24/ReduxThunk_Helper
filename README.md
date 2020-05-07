@@ -1,68 +1,89 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+reduxthunk
 
-## Available Scripts
+fetching data in a redux app
 
-In the project directory, you can run:
+- component gets rendered
+- componentDidMount
+- we call action creator from componentDidMount
+- action creator makes API request
+- api responds with data
+- action creator creates action that has data on the payload
+- reducers take action
+- new state, rerender
 
-### `npm start`
+async actions creators
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- action creators must return plain JS objects
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+bad approach
 
-### `npm test`
+```javascript
+export const fetchPosts = async () => {
+  const response = await jsonPlaceholder.get("/posts");
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+  return {
+    type: "FETCH_POSTS",
+    payload: response,
+  };
+};
+```
 
-### `npm run build`
+- because of async await, it returns a request instead of an action, reducers can't accept this
+- secondly, by the time our reducer get the action, payload: response isn't there yet
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Middlewares
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+- action -> dispatch -> middlewares
+- functions that STOP, MODIFY actions
+- redux-thunk allows action-creators to return functions with (dispatch, getState) params
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Config index.js to use middlewares
 
-### `npm run eject`
+index.js
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+```javascript
+import React from "react";
+import ReactDOM from "react-dom";
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+import { Provider } from "react-redux";
+import { createStore, applyMiddleware } from "redux";
+import thunk from "redux-thunk";
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+import App from "./components/App";
+import reducers from "./reducers";
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+const store = createStore(reducers, applyMiddleware(thunk));
 
-## Learn More
+ReactDOM.render(
+  <Provider store={store}>
+    <App />
+  </Provider>,
+  document.querySelector("#root")
+);
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+action-creator
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```javascript
+export const fetchPosts = () => async (dispatch, getState) => {
+  const response = await jsonPlaceholder.get("/posts");
 
-### Code Splitting
+  dispatch({ type: "FETCH_POSTS", payload: response });
+};
+```
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+# rules of reducers
 
-### Analyzing the Bundle Size
+- can't return undefined, default the STATE
+- returns STATE using ONLY previous state and action
+- can't mutate previous state, return new object/array to allow for new STATE
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+## safe state updates in reducers
 
-### Making a Progressive Web App
+- state.filter() - remove
+- [...state, 'hi'] - adding element to array state
+- state.map(el => el === 'hi' ? 'bye' : el ) - replacing element in an array
+- {...state, name: 'Sam'} - updating/adding propery in an object
+- {...state, age: undefined} || \_.omit{state, 'age'} (lodash) - removing propery from an object
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+## MapStateToPRops(state, ownProps)
