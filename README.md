@@ -1,4 +1,10 @@
-# reduxthunk
+# Redux-Thunk
+
+<br>
+<br>
+<em>npm install --save redux-thunk</em>
+<br>
+<br>
 
 Fetching data in a redux app: 
 
@@ -12,7 +18,8 @@ Fetching data in a redux app:
 - new state, rerender
 
 # Async Action-Creators
-
+<br>
+<br>
 - action creators must return plain JS objects
 
 bad approach
@@ -32,13 +39,15 @@ export const fetchPosts = async () => {
 - secondly, by the time our reducer get the action, payload: response isn't there yet
 
 # Middlewares
-
+<br>
+<br>
 - action -> dispatch -> middlewares -> reducers
 - functions that STOP, MODIFY actions
 - redux-thunk allows action-creators to return functions with (dispatch, getState) params
 
 # Config index.js to use middlewares
-
+<br>
+<br>
 index.js
 
 ```javascript
