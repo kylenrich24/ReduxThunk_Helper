@@ -72,18 +72,5 @@ export const fetchPosts = () => async (dispatch, getState) => {
 };
 ```
 
-# rules of reducers
 
-- can't return undefined, default the STATE
-- returns STATE using ONLY previous state and action
-- can't mutate previous state, return new object/array to allow for new STATE
 
-## safe state updates in reducers
-
-- state.filter() - remove
-- [...state, 'hi'] - adding element to array state
-- state.map(el => el === 'hi' ? 'bye' : el ) - replacing element in an array
-- {...state, name: 'Sam'} - updating/adding propery in an object
-- {...state, age: undefined} || \_.omit{state, 'age'} (lodash) - removing propery from an object
-
-## MapStateToPRops(state, ownProps)
