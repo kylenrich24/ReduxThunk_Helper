@@ -16,6 +16,7 @@ Fetching data in a redux app:
 - new state, rerender
 <br>
 <br>
+
 # Async Action-Creators
 <br>
 <br>
@@ -38,6 +39,7 @@ export const fetchPosts = async () => {
 - secondly, by the time our reducer get the action, payload: response isn't there yet
 <br>
 <br>
+
 # Middlewares
 <br>
 <br>
@@ -46,6 +48,7 @@ export const fetchPosts = async () => {
 - redux-thunk allows action-creators to return functions with (dispatch, getState) params
 <br>
 <br>
+
 # Config index.js to use middlewares
 <br>
 <br>
